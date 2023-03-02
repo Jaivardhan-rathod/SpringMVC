@@ -1,0 +1,144 @@
+What is Spring MVC?
+- A Spring MVC is sub framework of Spring Framework which is used to build a web application[application which is work on internet].
+- Spring MVC use servlet API internally, it is build on the top of servlet API. without servlet MVC is not work.
+- It follows the MODEL-View-CONTROLLER[MVC] design pattern.
+	- Model is data.
+	- View is what we are going to show. like presentation layer.
+	- Controller is to control the flow, which is done by servlet and java class.
+- It implements all the basic features of a core spring framework like Inversion of Control,Dependency Injection.	
+
+Now question is that why we to use MVC if we have servlet and MVC itself work on servlet.
+
+Why Spring MVC?
+- Seprate each role like model,view,controller etc. In servlet we use to do everything at one place.
+- Powerful configuration, like XML,annotation
+- It is sub framework of Spring Framework. So using Spring core feature like IOC etc, we can create loosly coupled application.
+- Rapid Application Development.
+- Spring MVC is Flexible, easy to test and much features. Like if you don't want JSP for view than you can use velocity framework.
+
+------------------------------------------------------------------------------------------------------
+
+								SOME IMPORTANT THINGS TO DO
+
+To create a Spring MVC maven project.
+the steps are the same, but there is only single change while creating an project.
+we have to select webapp artifectId maven-archetype-webapp.
+
+----
+
+we have to add an depencency for MVC project.
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.3.18</version>
+		</dependency>
+which is avaliable on google. by this will get a proper structure of our project.
+
+we have to add mavan plugin 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.1</version>
+ 				<configuration>
+					<warSourceDirectory>src/main/webapp
+					</warSourceDirectory>
+				</configuration> <!--  was trying to solver 404 error -->
+			</plugin>
+to remove error from pom.xml  
+[ even if browser show 404 while hitting url, try to clean,install maven and update project by right clicking on project. ] 
+
+----
+
+For the first time while working with with servlets or JSP.
+We have to install an plugin "Eclipse Java EE Developer Tools" through Eclipse marketplace.
+Help>Eclipse Marketplace>search Eclipse Java EE Developer Tools>Install plugin, and restart your IDE.
+After this we will able to create jsp pages.
+
+------------------------------------------------------------------------------------------------------
+											WORKING OF Spring MVC 
+client send request,
+
+Front Controller(Dispatcher Servlet) will only accept the request with the help of handlermapping.
+And Delegate the request (transfer) to controller.
+
+Controller(Normal Java class with @controller annotation) will handles the request, with the help of Dao,Services.. etc.
+Once the work is complete controller will send the data(model) and name of view(viewpageName) to front Controller
+
+Once model comes to front controller, Front controller will take help of view resolver.
+View resolver will set the data (model) in respective page for view by using prefix and suffix and send back to front controller.
+ 
+Now Front Controller will send Responce to Client.
+
+------------------------------------------------------------------------------------------------------
+
+						STEPS TO CREATE MVC APPLICATION
+						
+1. Configure the dispatcher servlet in web.xml
+	- In src>main>webapp>WEB-INF>web.xml.
+	- create an servlet[front controller]. using servlet-name,servlet-class tags in web-app tag.
+		<servlet>
+			<servlet-name>'name of servlet'</servlet-name>
+			<servlet-class>'servlet class path[DispatcherServlet]'</servlet-class>
+		</servlet> 
+		
+		now create servlet-mapping
+		<servlet-mapping>
+			<servlet-name>'same name as servlet name'</servlet-name>
+			<url-pattern>"/[to handle all url] or /'name'[than front controller will only trigger on this url]"</url-pattern>
+		</servlet-mapping>
+		 
+2. Create Spring Configuration File
+	- create configuration file on same path where web.xml file there.
+	- now create new xml file. Name should be followed as "servlet name"-servlet.xml.
+	- copy common configuation in file. It will read auto by namming convention.
+	
+3. Configure View Resolver
+	- In same filecreate a bean for InternalResourceViewResolver pass the property named as prefix and suffix.
+	- prefix is the folder path where all our jsp file are stored. And suffix is .jsp "eg. /WEB-INF/views/'name from controller'.jsp" 
+																								[prefix]					 [suffix]
+	- To use annotation, we have to enable the annotation. By using <context:component-scan base-package="package path"/> 
+
+4. Create Controller
+	- Now create java class in controller package.
+	- Above class name use @controller annotation.
+	- Now create a method,which should return view name.
+	- Method should be of "ModelAndView" type. And return a new object which contain "page_name" refer HomwController.java
+	- And on the top of the method use @requestmapping("/'url_name'") so that controller will under stand when to trigger which method  
+	
+5. Create a View folder to show page
+	- Now create a jsp page, name should match with which controller will return.
+	- jsp file should be in the same path which we have specifyed in prefix of internalresourceviewresolver.
+	
+------------------------------------------------------------------------------------------------------
+
+								Send Data Form Controller To View
+								
+1.	we can send data from controller to view page.
+2.	we can do this by model and ModelAndView.
+3.	if we use model than we have to use addAttribute(String"key",object"Value") to set value in httprequest
+4.	if we use ModelAndView than we have to use addObject(String"key",object"Value") to set value in httprequest
+5.	now data is set in httprequest, we can get data by using scriptlet tag [<% %>].
+6.	in view page, get attribute by key name and stored it in variable by doing respected type casting.
+
+show data using expression language
+syntax :- ${"key name"} 
+but by default expression language is diable for the JSP pages.
+so we have to add page directive at the top of it.
+<%@page isELIgnored="false" %> - by default the value is true, which not consider expression language.
+so we have to set it false.
+NOTE:- [every time we are looking some data from expression language than try to maven clean and maven build, and re run the server.]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
