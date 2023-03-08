@@ -71,7 +71,7 @@ Now Front Controller will send Responce to Client.
 
 ------------------------------------------------------------------------------------------------------
 
-						STEPS TO CREATE MVC APPLICATION
+							STEPS TO CREATE MVC APPLICATION
 						
 1. Configure the dispatcher servlet in web.xml
 	- In src>main>webapp>WEB-INF>web.xml.
@@ -128,7 +128,18 @@ so we have to add page directive at the top of it.
 so we have to set it false.
 NOTE:- [every time we are looking some data from expression language than try to maven clean and maven build, and re run the server.]
 
-
+------------------------------------------------------------------------------------------------------
+								Send Data From UI To Controller
+								
+1.	To send data from UI to Controller there are two way 
+		a. HTML from
+		b. Qury parameter
+2.	we can access that data in our Controller class as an object.
+3.	When we submit a HTML form, the Spring container does four things.
+		a. It will first read all the data that is submitted that comes in the request, using the request.getParameter methods.
+		b. Once it reads them it will convert them into the appropriate Java type 
+		   using integer.parseInt, double.parseDouble and all the other parse methods that are available.
+		c. Once parsed, it will create a object of the model class that we created.
 
 
 

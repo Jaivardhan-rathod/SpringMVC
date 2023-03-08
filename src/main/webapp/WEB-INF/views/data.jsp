@@ -15,7 +15,7 @@
 		List<String> emp = (List<String>) request.getAttribute("emp");
 	%>
 	<h1>
-		name is<%= name%>
+		name is <%= name%>
 	</h1>
 	
 	
